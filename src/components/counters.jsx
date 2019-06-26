@@ -5,18 +5,6 @@ class Counters extends Component {
   state = {
     imageUrl: "http://picsum.photos/200",
     tags: [],
-    counters: [
-      { id: 1, value: 0 },
-      { id: 2, value: 0 },
-      { id: 3, value: 0 },
-      { id: 4, value: 0 }
-    ]
-  };
-
-  handleDelete = counterId => {
-    const counters = this.state.counters.filter(c => c.id !== counterId);
-    this.setState({ counters });
-    console.log("Event handler added .", counterId);
   };
 
   renderTags() {
@@ -32,15 +20,24 @@ class Counters extends Component {
   }
 
   render() {
+
+    // ejectable , then replace onReset , counters ... with this.props.onReset , this.props.counters ,.....
+    const { onReset, counters, onDelete, onIncrement} = this.props;
+
+    console.log("Counters - Rendered");
+
     return (
       <div>
+        <button
+            onClick={onReset}
+            className="btn btn-primary btn-sm m-2">Reset</button>
         <img src={this.state.imageUrl} alt="" className="float-right" />
-        {this.state.counters.map(counter => (
+        {counters.map(counter => (
           <Counter
             key={counter.id}
-            onDelete={this.handleDelete}
-            value={counter.value}
-            id={counter.id}
+            onDelete={onDelete}
+            onIncrement={onIncrement}
+            counter={counter}
           />
         ))}
         <br />
